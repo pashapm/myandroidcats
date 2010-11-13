@@ -1,12 +1,16 @@
 package ru.waterdist;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 public class ProgressTest extends Activity {
@@ -32,11 +36,19 @@ public class ProgressTest extends Activity {
 				@Override
 				public void run() {
 					try {
-						FileInputStream fis = new FileInputStream(pipe);
-						int p = 0;
-						while ((p = fis.read()) > 0) {
-							publishProgress(p);
+//						FileInputStream fis = new FileInputStream(pipe);
+						BufferedReader read = new BufferedReader(new FileReader(new File(pipe)));
+						
+						while (!Thread.interrupted()) {
+							String s = read.readLine();
+							Log.d("READ!!!!", s);
 						}
+						
+						
+//						int p = 0;
+//						while ((p = fis.read()) > 0) {
+//							publishProgress(p);
+//						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					} 
@@ -62,4 +74,6 @@ public class ProgressTest extends Activity {
 	
 	native int process(String pipe);
 	native int mkfifo(String pipe);
+	
+	
 }
