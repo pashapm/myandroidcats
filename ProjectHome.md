@@ -1,0 +1,1 @@
+useful android-specific parts of code
